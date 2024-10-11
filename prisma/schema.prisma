@@ -1,0 +1,45 @@
+// Gerador do cliente Prisma (prisma-client-js)
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Fonte de dados para conexão com o banco de dados PostgreSQL
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Definição dos modelos (entidades do banco de dados)
+model AppUser {
+  id                    Int       @id @default(autoincrement())
+  username              String    @unique
+  email                 String    @unique
+  password              String
+  lastPasswordChange    DateTime?
+  insDate               DateTime  @default(now())
+  updDate               DateTime?
+  type                  Int
+  passwordValidity      Int
+  passwordExpires       Int
+  isActive              Boolean   @default(true)
+  products              Product[]
+}
+
+model Category {
+  id                    Int       @id @default(autoincrement())
+  name                  String    @unique
+  products              Product[]
+}
+
+model Product {
+  id                    Int       @id @default(autoincrement())
+  ean                   String    @unique
+  name                  String
+  insDate               DateTime  @default(now())
+  updDate               DateTime?
+  idCategory            Int
+  category              Category  @relation(fields: [idCategory], references: [id])
+  insUser               Int
+  updUser               Int?
+  appUser               AppUser    @relation(fields: [insUser], references: [id])
+}
