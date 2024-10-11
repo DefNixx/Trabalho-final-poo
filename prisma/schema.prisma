@@ -18,12 +18,13 @@ model AppUser {
   lastPasswordChange    DateTime?
   insDate               DateTime  @default(now())
   updDate               DateTime?
-  type                  Int
-  passwordValidity      Int
-  passwordExpires       Int
+  type                  Int?      
+  passwordValidity      Int?      
+  passwordExpires       Int?     
   isActive              Boolean   @default(true)
   products              Product[]
 }
+
 
 model Category {
   id                    Int       @id @default(autoincrement())
