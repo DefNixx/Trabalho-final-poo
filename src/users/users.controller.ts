@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDto } from './login.dto';
 import { CreateUserDto } from './createUser.dto';
@@ -41,5 +41,12 @@ export class UsersController
   {
     const userId = parseInt(id, 10);
     return this.usersService.updateUser(userId, updateUserDto);
+  }
+
+  // Nova rota DELETE para excluir um usuário
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string) {
+    await this.usersService.deleteUser(Number(id));
+    return { message: 'Usuário excluído com sucesso!' };
   }
 }

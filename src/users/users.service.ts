@@ -144,4 +144,19 @@ export class UsersService
       throw new InternalServerErrorException(`Erro ao atualizar usuário: ${error.message}`);
     }
   }
+
+  // Método para excluir um usuário exemplo: http://localhost:3000/users/3 sendo 3 o id
+  async deleteUser(id: number): Promise<void> {
+    const user = await this.prisma.appUser.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    await this.prisma.appUser.delete({
+      where: { id },
+    });
+  }
 }
